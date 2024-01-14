@@ -38,7 +38,7 @@ jobs:
       # Sync with S3 Bucket 
       - name: Sync static website with S3
         run: |
-          aws s3 sync src/ s3://slwp --delete
+          aws s3 sync src/ s3://mosenk97bucket --delete
       - name: Stop task definition
         run: |
           aws ecs update-service --cluster Cluster --service Service --task-definition mytaskdefinition --desired-count 0
