@@ -15,6 +15,11 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       
+      - name: Use Node.js 16
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -49,6 +54,10 @@ jobs:
       - name: Sleep for 10 seconds
         run: sleep 10
         shell: bash
+
+      - name: Set output variable for CloudFront distribution ID
+        id: cloudfront_output
+        run: echo "CLOUDFRONT_DISTRIBUTION_ID=your_distribution_id" >> $GITHUB_ENV
 
       - name: Invalidate CloudFront Cache
         run: |
