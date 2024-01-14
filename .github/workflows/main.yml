@@ -1,4 +1,7 @@
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    branches:
+      - main
 
 name: Push to S3 and update Cloudfront
 
@@ -8,14 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
-          token: ${{ secrets.TOKEN_SECRET }}
-      - name: Configure Git credentials
-        run: |
-          git config --global user.email ${{ secrets.USER_MAIL }}
-          git config --global user.name ${{ secrets.USER_NAME }}
-          # Configure AWS Credentials
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -23,29 +22,34 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
+
       - name: Clear src directory
         run: |
-          git rm -r src/
+          rm -rf src/*
+
       - name: Download and unzip file
         run: |
           wget -O static-site.zip ${{ secrets.URL }}
           unzip static-site.zip -d src/
+
       - name: Commit and push updates
         run: |
           git add src/
           git commit -m "Update static site"
           git push origin main
-      # Sync with S3 Bucket 
+
       - name: Sync static website with S3
         run: |
           aws s3 sync src/ s3://slwp --delete
+
       - name: Stop task definition
         run: |
           aws ecs update-service --cluster Cluster --service Service --task-definition mytaskdefinition --desired-count 0
+
       - name: Sleep for 10 seconds
-        run: sleep 10s
+        run: sleep 10
         shell: bash
-      # Create Invalidation
+
       - name: Invalidate CloudFront Cache
         run: |
-          aws cloudfront create-invalidation --distribution-id E2RGF7GNXOJGJP --paths /*
+          aws cloudfront create-invalidation --distribution-id E2RGF7GNXOJGJP --paths "/*"
