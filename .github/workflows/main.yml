@@ -33,12 +33,6 @@ jobs:
           # Run the command to generate static files using Simply Static
           # For example:
           # ./path/to/simply-static-cli generate
-
-      - name: Upload ZIP Archive
-        uses: actions/upload-artifact@v2
-        with:
-          name: static-website
-          path: static-website.zip
       - name: Configure Git
         run: |
           git config --global user.email "klinkmor@hs-pforzheim.de"
