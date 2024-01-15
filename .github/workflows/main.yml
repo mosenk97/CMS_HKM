@@ -29,11 +29,28 @@ jobs:
           git rm -r src/
           echo "src directory cleared."
           
-      - name: Download and unzip file
+      - name: Install Dependencies
         run: |
-          wget -O static-site.zip ${{ secrets.URL }}
-          unzip static-site.zip -d src/
-          
+         # Install any dependencies required for building your static site
+         # For example, if you need Node.js and npm:
+         # npm install
+
+      - name: Generate Static Files
+        run: |
+          # Run the command to generate static files using Simply Static
+          # For example:
+          # ./path/to/simply-static-cli generate
+
+      - name: Create ZIP Archive
+        run: |
+          # Create a ZIP archive of the static files
+          zip -r static-website.zip path/to/static/files
+
+      - name: Upload ZIP Archive
+        uses: actions/upload-artifact@v2
+        with:
+          name: static-website
+          path: static-website.zip
       - name: Configure Git
         run: |
           git config --global user.email "klinkmor@hs-pforzheim.de"
