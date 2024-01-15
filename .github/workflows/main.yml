@@ -1,28 +1,26 @@
 on: [workflow_dispatch]
+name: Upload Website to S3
 
-name: Push to S3 and update Cloudfront
+on:
+  push:
+    branches:
+    - main
 
 jobs:
   deploy:
-    name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.TOKEN_SECRET }}
-      - name: Configure Git credentials
-        run: |
-          git config --global user.email ${{ secrets.USER_MAIL }}
-          git config --global user.name ${{ secrets.USER_NAME }}
-          # Configure AWS Credentials
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: us-east-1
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region: us-east-1
+        
       - name: Clear src directory
         run: |
           git rm -r src/
