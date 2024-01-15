@@ -28,13 +28,6 @@ jobs:
         run: |
           git rm -r src/
           echo "src directory cleared."
-          
-      - name: Install Dependencies
-        run: |
-         # Install any dependencies required for building your static site
-         # For example, if you need Node.js and npm:
-         # npm install
-
       - name: Generate Static Files
         run: |
           # Run the command to generate static files using Simply Static
