@@ -52,7 +52,7 @@ jobs:
            echo "Sync completed successfully."
       - name: Stop task definition
         run: |
-          aws ecs update-service --cluster Cluster --service SERVICE --task-definition arn:aws:ecs:us-east-1:243927229681:task/Cluster/bbb733b790ec45d688b4a26e9ac71497 --desired-count 0
+          aws ecs update-service --cluster Cluster --service SERVICE --task-definition mytaskedefinition:3 --desired-count 0
       - name: Sleep for 10 seconds
         run: sleep 10s
         shell: bash
