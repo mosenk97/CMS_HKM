@@ -26,7 +26,7 @@ jobs:
           
       - name: Clear src directory
         run: |
-          git rm -r src/
+          git rm -r src/*
           echo "src directory cleared."
       - name: Generate Static Files
         run: |
@@ -40,7 +40,7 @@ jobs:
           
       - name: Commit and push updates
         run: |
-          git add src/
+          git add src/*
           git commit -m "Update static site"
           git push origin main
           
