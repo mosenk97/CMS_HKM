@@ -39,6 +39,7 @@ jobs:
       - name: Sync static website with S3
         run: |
           aws s3 sync src/ s3://mosenk97bucket --delete
+           echo "Sync completed successfully."
       - name: Stop task definition
         run: |
           aws ecs update-service --cluster Cluster --service SERVICE --task-definition mytaskdefinition --desired-count 0
@@ -49,3 +50,4 @@ jobs:
       - name: Invalidate CloudFront Cache
         run: |
           aws cloudfront create-invalidation --distribution-id E2RGF7GNXOJGJP --paths /*
+          echo "Invalidation request submitted successfully."
