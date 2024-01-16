@@ -40,7 +40,7 @@ jobs:
           
       - name: Commit and push updates
         run: |
-          git add src/*
+          git add src/
           git commit -m "Update static site"
           git push origin main
           
