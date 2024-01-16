@@ -26,18 +26,20 @@ jobs:
           
       - name: Clear src directory
         run: |
-          git rm -r src/*
+          git rm -r src/
           echo "src directory cleared."
+          
+      - name: Download and unzip file
+        run: |
+          wget -O static-site.zip ${{ secrets.URL }}
+          unzip static-site.zip -d src/
+          
       - name: Generate Static Files
         run: |
           # Run the command to generate static files using Simply Static
           # For example:
           # ./path/to/simply-static-cli generate
-      - name: Configure Git
-        run: |
-          git config --global user.email "klinkmor@hs-pforzheim.de"
-          git config --global user.name "mosenk97"
-          
+ 
       - name: Commit and push updates
         run: |
           git add src/
