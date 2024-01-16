@@ -33,13 +33,7 @@ jobs:
         run: |
           wget -O static-site.zip ${{ secrets.URL }}
           unzip static-site.zip -d src/
-          
-      - name: Generate Static Files
-        run: |
-          # Run the command to generate static files using Simply Static
-          # For example:
-          # ./path/to/simply-static-cli generate
- 
+           
       - name: Commit and push updates
         run: |
           git add src/
